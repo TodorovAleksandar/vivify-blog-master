@@ -1,0 +1,1 @@
+<h3>Imate novi komentar na post: {{ $post->title}}</h3>

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Mail\CommentRecieved;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Comment;
+use Illuminate\Support\Facades\Mail;
 
 class CommentsController extends Controller
 {
@@ -15,6 +18,8 @@ class CommentsController extends Controller
         $this->validate(request(), Comment::STORE_RULES);
 
         $post->comments()->create(request()->all());
+
+        Mail::to($post->user)->send(new CommentRecieved($post));
 
         return redirect()->route('single-post', ['id' => $postId]);
     }
